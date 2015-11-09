@@ -300,6 +300,7 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <!-- From: file:/Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="action_settings">Settings</string>
     <string name="app_name">Simple Tweets</string>
     <!-- From: file:/Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/design/23.1.0/res/values/values.xml -->
     <eat-comment/>
@@ -314,6 +315,8 @@
     <!-- From: file:/Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="title_activity_timeline">Home Timeline</string>
+    <string name="twit">Twit</string>
+    <string name="whats_happening">What\'s happening?</string>
     <!-- From: file:/Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
     <eat-comment/>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
@@ -328,6 +331,19 @@
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
+    </style>
+    <style name="AppDialogTheme" parent="AppBaseTheme">
+        <!-- Define color properties as desired -->
+
+        <item name="colorPrimaryDark">#000</item>
+
+
+        <!-- Define window properties as desired -->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
@@ -1286,6 +1302,13 @@
         <item name="tabBackground">?attr/selectableItemBackground</item>
         <item name="tabTextAppearance">@style/TextAppearance.Design.Tab</item>
         <item name="tabSelectedTextColor">?android:textColorPrimary</item>
+    </style>
+    <!-- From: file:/Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="MY.DIALOG" parent="android:Theme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">false</item>
     </style>
     <!-- From: file:/Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/values/values.xml -->
     <eat-comment/>

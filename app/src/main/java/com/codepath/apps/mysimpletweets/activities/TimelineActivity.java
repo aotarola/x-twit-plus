@@ -1,11 +1,13 @@
 package com.codepath.apps.mysimpletweets.activities;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -159,6 +161,12 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void OnComposeClick(View view) {
-        Toast.makeText(this,"asdf",Toast.LENGTH_SHORT).show();
+
+
+        FragmentManager fm = getSupportFragmentManager();
+        ComposeFragment editNameDialog = ComposeFragment.newInstance("Some Title");
+        editNameDialog.show(fm, "compose_fragment");
+
+
     }
 }

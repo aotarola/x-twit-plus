@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_name"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_gravity="center" android:orientation="vertical"  >
+    <EditText
+        android:id="@+id/txt_your_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/whats_happening"
+        android:layout_gravity="center_horizontal"
+        android:imeOptions="actionDone"
+        android:textColorHint="#ccd6dd"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:lines="5"
+        android:gravity="top|start" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="140"
+        android:layout_marginRight="10dp"
+        android:textColor="#ccd6dd"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/twit"
+        android:id="@+id/button"
+        android:padding="0px"
+        android:textColor="#ffffff"
+        android:background="@drawable/rounded_button"
+         />
+    </LinearLayout>
+</LinearLayout><!-- From: file:/Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/src/main/res/layout/fragment_compose.xml -->

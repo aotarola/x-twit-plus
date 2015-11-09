@@ -23,6 +23,8 @@ MERGED from [com.android.support:support-v4:23.1.0] /Users/aotarolaalvarad/Andro
 MERGED from [com.android.support:recyclerview-v7:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.0/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.0/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/AndroidManifest.xml:20:5-43
 	android:targetSdkVersion
 		ADDED from /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/src/main/AndroidManifest.xml:9:9-38
 		INJECTED from /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/src/main/AndroidManifest.xml
@@ -57,6 +59,7 @@ MERGED from [com.android.support:appcompat-v7:23.1.0] /Users/aotarolaalvarad/And
 MERGED from [com.android.support:support-v4:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:design:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/design/23.1.0/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.0] /Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/AndroidManifest.xml:22:5-20
