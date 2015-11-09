@@ -29,7 +29,8 @@ import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.adaptors.TweetsArrayAdaptor;
 import com.codepath.apps.mysimpletweets.interfaces.ComposeFragmentListener;
-import com.codepath.apps.mysimpletweets.listeners.EndlessScrollListener;
+import com.codepath.apps.mysimpletweets.listeners.CustomRecyclerViewListener;
+import com.codepath.apps.mysimpletweets.listeners.EndlessRecyclerOnScrollListener;
 import com.codepath.apps.mysimpletweets.listeners.HidingScrollListener;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.models.User;
@@ -91,7 +92,15 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         tweets = new ArrayList<>();
         aTweets = new TweetsArrayAdaptor(this, tweets);
         lvTweets.setAdapter(aTweets);
-        lvTweets.setOnScrollListener(new HidingScrollListener() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        lvTweets.setLayoutManager(linearLayoutManager);
+        lvTweets.setOnScrollListener(new CustomRecyclerViewListener(linearLayoutManager) {
+
+            @Override
+            public void onLoadMore(int current_page) {
+                populateTimeLine();
+            }
+
             @Override
             public void onHide() {
                 hideViews();
@@ -102,18 +111,6 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 showViews();
             }
         });
-        //REGRESSION: request on scroll bottom
-//        lvTweets.setOnScrollListener(new EndlessScrollListener() {
-//            @Override
-//            public boolean onLoadMore(int page, int totalItemsCount) {
-//                // Triggered only when new data needs to be appended to the list
-//                // Add whatever code is needed to append new items to your AdapterView
-//                populateTimeLine();
-//                // or customLoadMoreDataFromApi(totalItemsCount);
-//                return true; // ONLY if more data is actually being loaded; false otherwise.
-//            }
-//        });
-        lvTweets.setLayoutManager(new LinearLayoutManager(this));
 
         client = TwitterApplication.getRestClient();
         getCurrentUserInfo();
