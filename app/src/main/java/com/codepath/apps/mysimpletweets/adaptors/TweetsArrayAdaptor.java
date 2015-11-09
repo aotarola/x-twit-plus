@@ -1,11 +1,13 @@
 package com.codepath.apps.mysimpletweets.adaptors;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,26 +20,61 @@ import java.util.List;
 /**
  * Created by aotarolaalvarad on 11/7/15.
  */
-public class TweetsArrayAdaptor extends ArrayAdapter<Tweet>{
+public class TweetsArrayAdaptor  extends
+        RecyclerView.Adapter<TweetsArrayAdaptor.ViewHolder> {
 
+    private List<Tweet> mTweets;
+    Context context;
 
-    public TweetsArrayAdaptor(Context context,List<Tweet> tweets) {
-        super(context, android.R.layout.simple_list_item_1, tweets);
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView ivProfileImage;
+        TextView tvUserName;
+        TextView tvScreenName;
+        TextView tvBody;
+        TextView tvDateAgo;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
+            tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
+            tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
+            tvBody = (TextView) itemView.findViewById(R.id.tvBody);
+            tvDateAgo = (TextView) itemView.findViewById(R.id.tvDateAgo);
+        }
     }
 
+    public TweetsArrayAdaptor(Context context, List<Tweet> tweets) {
+        this.mTweets = tweets;
+        this.context = context;
+    }
+
+
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Tweet tweet = getItem(position);
+    public TweetsArrayAdaptor.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_tweet, parent, false);
-        }
+        // Inflate the custom layout
+        View contactView = inflater.inflate(R.layout.item_tweet, parent, false);
 
-        ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
-        TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
-        TextView tvScreenName = (TextView) convertView.findViewById(R.id.tvScreenName);
-        TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
-        TextView tvDateAgo = (TextView) convertView.findViewById(R.id.tvDateAgo);
+        // Return a new holder instance
+        ViewHolder viewHolder = new ViewHolder(contactView);
+        return viewHolder;
+    }
+
+    // Involves populating data into the item through holder
+    @Override
+    public void onBindViewHolder(TweetsArrayAdaptor.ViewHolder viewHolder, int position) {
+        // Get the data model based on position
+        Tweet tweet = mTweets.get(position);
+
+        // Set item views based on the data model
+        ImageView ivProfileImage = viewHolder.ivProfileImage;
+        TextView tvUserName = viewHolder.tvUserName;
+        TextView tvScreenName = viewHolder.tvScreenName;
+        TextView tvBody = viewHolder.tvBody;
+        TextView tvDateAgo = viewHolder.tvDateAgo;
 
         tvDateAgo.setText(tweet.getRelativeTimeAgo());
         tvUserName.setText(tweet.getUser().getName());
@@ -46,9 +83,13 @@ public class TweetsArrayAdaptor extends ArrayAdapter<Tweet>{
 
         ivProfileImage.setImageResource(android.R.color.transparent);;
 
-        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
-
-        return convertView;
+        Picasso.with(context).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
 
     }
+
+    @Override
+    public int getItemCount() {
+        return mTweets.size();
+    }
+
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,13 +8,38 @@
     tools:context=".activities.TimelineActivity"
     tools:showIn="@layout/activity_timeline">
 
-    <ListView
-        android:layout_width="fill_parent" android:layout_height="fill_parent"
-        android:layout_weight="1.0"
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:textColor="#444444"
         android:divider="@drawable/list_divider"
         android:dividerHeight="1px"
         android:cacheColorHint="#00000000"
         android:id="@+id/lvTweets"
+        android:paddingTop="?attr/actionBarSize"
+        android:clipToPadding="false"
     />
-</LinearLayout>
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#55acee"
+         />
+
+
+    <ImageButton
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:id="@+id/ibCompose"
+        android:src="@drawable/ic_tweet"
+        android:layout_gravity="bottom|end"
+        android:onClick="OnComposeClick"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        android:background="@null"
+       />
+</FrameLayout>

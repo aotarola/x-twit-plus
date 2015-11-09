@@ -8,11 +8,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +27,7 @@ import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.adaptors.TweetsArrayAdaptor;
 import com.codepath.apps.mysimpletweets.listeners.EndlessScrollListener;
+import com.codepath.apps.mysimpletweets.listeners.HidingScrollListener;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -35,7 +42,10 @@ public class TimelineActivity extends AppCompatActivity {
     private TwitterClient client;
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdaptor aTweets;
-    private ListView lvTweets;
+    private RecyclerView lvTweets;
+    Toolbar toolbar;
+
+    private ImageButton ibCompose;
 
     private long lastTweetId = 0;
 
@@ -43,31 +53,56 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
-
-        lvTweets = (ListView) findViewById(R.id.lvTweets);
+        ibCompose = (ImageButton) findViewById(R.id.ibCompose);
+        lvTweets = (RecyclerView) findViewById(R.id.lvTweets);
         tweets = new ArrayList<>();
         aTweets = new TweetsArrayAdaptor(this, tweets);
         lvTweets.setAdapter(aTweets);
-
-        lvTweets.setOnScrollListener(new EndlessScrollListener() {
+        lvTweets.setOnScrollListener(new HidingScrollListener() {
             @Override
-            public boolean onLoadMore(int page, int totalItemsCount) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to your AdapterView
-                populateTimeLine();
-                // or customLoadMoreDataFromApi(totalItemsCount);
-                return true; // ONLY if more data is actually being loaded; false otherwise.
+            public void onHide() {
+                hideViews();
+            }
+
+            @Override
+            public void onShow() {
+                showViews();
             }
         });
-
+        //REGRESSION: request on scroll bottom
+//        lvTweets.setOnScrollListener(new EndlessScrollListener() {
+//            @Override
+//            public boolean onLoadMore(int page, int totalItemsCount) {
+//                // Triggered only when new data needs to be appended to the list
+//                // Add whatever code is needed to append new items to your AdapterView
+//                populateTimeLine();
+//                // or customLoadMoreDataFromApi(totalItemsCount);
+//                return true; // ONLY if more data is actually being loaded; false otherwise.
+//            }
+//        });
+        lvTweets.setLayoutManager(new LinearLayoutManager(this));
 
         client = TwitterApplication.getRestClient();
 
         populateTimeLine();
     }
 
+
+    private void hideViews() {
+        toolbar.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ibCompose.getLayoutParams();
+        int fabBottomMargin = lp.bottomMargin;
+        ibCompose.animate().translationY(ibCompose.getHeight()+fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
+    }
+
+    private void showViews() {
+        toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+        ibCompose.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,11 +141,12 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
                 Log.d("DEBUG", json.toString());
-                ArrayList<Tweet> tweets = Tweet.fromJSONArray(json);
+                ArrayList<Tweet> newTweets = Tweet.fromJSONArray(json);
                 if(lastTweetId > 0){
                     tweets.remove(0);
                 }
-                aTweets.addAll(tweets);
+                tweets.addAll(newTweets);
+                aTweets.notifyDataSetChanged();
 
                 lastTweetId = Tweet.getLastTweet(tweets).getUid();
             }
@@ -122,4 +158,7 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    public void OnComposeClick(View view) {
+        Toast.makeText(this,"asdf",Toast.LENGTH_SHORT).show();
+    }
 }
