@@ -13,7 +13,7 @@ TBD
 - [x] User can view the tweets from their home timeline
 
   - [x] User should be displayed the username, name, and body for each tweet
-  - [ ] User should be displayed the relative timestamp for each tweet "8m", "7h"
+  - [x] User should be displayed the relative timestamp for each tweet "8m", "7h"
   - [x] User can view more tweets as they scroll with [infinite pagination](http://guides.codepath.com/android/Endless-Scrolling-with-AdapterViews)
 
 - [ ] User can compose a new tweet

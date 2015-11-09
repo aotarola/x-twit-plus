@@ -1,10 +1,18 @@
 package com.codepath.apps.mysimpletweets.models;
 
+import android.text.format.DateUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by aotarolaalvarad on 11/7/15.
@@ -31,6 +39,44 @@ public class Tweet {
 
     public User getUser() {
         return user;
+    }
+
+    public String getRelativeTimeAgo() {
+        int diffInDays = 0;
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat format = new SimpleDateFormat(twitterFormat);
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Calendar c = Calendar.getInstance();
+        String formattedDate = format.format(c.getTime());
+        String dateToPresent = "";
+        Date d1 = null;
+        Date d2 = null;
+        try {
+
+            d1 = format.parse(formattedDate);
+            d2 = format.parse(getCreatedAt());
+            long diff = d1.getTime() - d2.getTime();
+
+            diffInDays = (int) (diff / (1000 * 60 * 60 * 24));
+            if (diffInDays > 0) {
+                dateToPresent = diffInDays + "d";
+            } else {
+                int diffHours = (int) (diff / (60 * 60 * 1000));
+                if (diffHours > 0) {
+                    dateToPresent = diffHours + "h";
+                } else {
+
+                    int diffMinutes = (int) ((diff / (60 * 1000) % 60));
+                    dateToPresent = diffMinutes + "m";
+                }
+            }
+
+        } catch (ParseException e) {
+            // System.out.println("Err: " + e);
+            e.printStackTrace();
+        }
+
+        return dateToPresent;
     }
 
     public static Tweet fromJSON(JSONObject json){

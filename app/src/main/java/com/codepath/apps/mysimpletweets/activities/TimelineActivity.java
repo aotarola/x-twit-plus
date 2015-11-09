@@ -84,7 +84,6 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
 
-
         return true;
     }
 
