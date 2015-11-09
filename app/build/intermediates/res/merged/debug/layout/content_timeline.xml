@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.TimelineActivity"
+    tools:showIn="@layout/activity_timeline">
+
+    <ListView
+        android:layout_width="fill_parent" android:layout_height="fill_parent"
+        android:layout_weight="1.0"
+        android:textColor="#444444"
+        android:divider="@drawable/list_divider"
+        android:dividerHeight="1px"
+        android:cacheColorHint="#00000000"
+        android:id="@+id/lvTweets"
+    />
+</LinearLayout>
+<!-- From: file:/Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/src/main/res/layout/content_timeline.xml -->

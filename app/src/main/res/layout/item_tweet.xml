@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="horizontal"
+android:padding="4dp">
+<ImageView android:id="@+id/ivProfileImage"
+    android:layout_width="48dp"
+    android:layout_height="48dp"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="4sp"
+        android:paddingStart="4sp"
+        android:paddingRight="4sp"
+        android:paddingEnd="4sp"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:gravity="fill_horizontal"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView android:id="@+id/tvUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="#444444"
+                    android:padding="0dp"/>
+                <TextView android:id="@+id/tvScreenName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:paddingLeft="5dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textSize="12sp"/>
+                <TextView android:id="@+id/tvDateAgo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="10m"
+                    android:padding="0dp"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+            <TextView android:id="@+id/tvBody"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:textColor="#666666"
+                android:maxLines="5"
+                android:ellipsize="end"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
