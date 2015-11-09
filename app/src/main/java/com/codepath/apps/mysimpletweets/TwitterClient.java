@@ -10,6 +10,9 @@ import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /*
  * 
  * This is the object responsible for communicating with a REST API. 
@@ -28,6 +31,8 @@ public class TwitterClient extends OAuthBaseClient {
 	public static final String REST_CONSUMER_KEY = "hi1IKAYtSmEk5wRC2yfAdE6RE";       // Change this
 	public static final String REST_CONSUMER_SECRET = "EBTIMtDpF9l7f10CaHkwaxms5dYREZjDlpLWxWc1FrkiVFNU7y"; // Change this
 	public static final String REST_CALLBACK_URL = "oauth://cpsimpletweets"; // Change this (here and in manifest)
+    public static final int PAGE_SIZE = 25;
+    public static final int DEFAULT_TWEET_ID = 1;
 
 	public TwitterClient(Context context) {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
@@ -38,24 +43,37 @@ public class TwitterClient extends OAuthBaseClient {
 
 		RequestParams params = new RequestParams();
 
-		params.put("count", 25);
+		params.put("count", PAGE_SIZE);
 
 		if(lastTweetId > 0){
 			params.put("max_id", lastTweetId);
 		}
 		else {
-			params.put("since", 1);
+			params.put("since", DEFAULT_TWEET_ID);
 		}
 
 		getClient().get(apiUrl, params, handler);
 	}
 
-	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
-	 * 	  i.e getApiUrl("statuses/home_timeline.json");
-	 * 2. Define the parameters to pass to the request (query or body)
-	 *    i.e RequestParams params = new RequestParams("foo", "bar");
-	 * 3. Define the request method and make a call to the client
-	 *    i.e client.get(apiUrl, params, handler);
-	 *    i.e client.post(apiUrl, params, handler);
-	 */
+	public void postStatus(String status, AsyncHttpResponseHandler handler){
+		String apiUrl = getApiUrl("statuses/update.json");
+
+		RequestParams params = new RequestParams();
+
+        params.put("status", status);
+
+        getClient().post(apiUrl, params, handler);
+
+	}
+
+    public void getMyProfile(AsyncHttpResponseHandler handler){
+        String apiUrl = getApiUrl("account/verify_credentials.json");
+
+        RequestParams params = new RequestParams();
+
+        params.put("skip_status", "true");
+
+        getClient().get(apiUrl, params, handler);
+    }
+
 }

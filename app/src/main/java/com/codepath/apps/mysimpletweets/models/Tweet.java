@@ -5,7 +5,9 @@ import android.text.format.DateUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.ocpsoft.prettytime.units.JustNow;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +25,41 @@ public class Tweet {
     private User user;
     private String createdAt;
 
-    // Deserialize the JSON
+    private static final String TWITTER_DATE_FORMAT = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
+    public Tweet(){
+        uid = -1;
+        body = "";
+        user = new User();
+    }
+
+    public Tweet(Locale locale){
+
+        this();
+
+        DateFormat dateFormat = new SimpleDateFormat(TWITTER_DATE_FORMAT, locale);
+        Date date = new Date();
+        createdAt = dateFormat.format(date);
+
+    }
+
 
     public String getBody() {
         return body;
@@ -43,7 +79,7 @@ public class Tweet {
 
     public String getRelativeTimeAgo() {
         int diffInDays = 0;
-        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        String twitterFormat = TWITTER_DATE_FORMAT;
         SimpleDateFormat format = new SimpleDateFormat(twitterFormat);
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
         Calendar c = Calendar.getInstance();
@@ -67,7 +103,12 @@ public class Tweet {
                 } else {
 
                     int diffMinutes = (int) ((diff / (60 * 1000) % 60));
-                    dateToPresent = diffMinutes + "m";
+                    if(diffMinutes > 0) {
+                        dateToPresent = diffMinutes + "m";
+                    }
+                    else{
+                        dateToPresent = "just now";
+                    }
                 }
             }
 

@@ -28,9 +28,11 @@ import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.adaptors.TweetsArrayAdaptor;
+import com.codepath.apps.mysimpletweets.interfaces.ComposeFragmentListener;
 import com.codepath.apps.mysimpletweets.listeners.EndlessScrollListener;
 import com.codepath.apps.mysimpletweets.listeners.HidingScrollListener;
 import com.codepath.apps.mysimpletweets.models.Tweet;
+import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -38,18 +40,44 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements ComposeFragmentListener {
 
     private TwitterClient client;
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdaptor aTweets;
     private RecyclerView lvTweets;
+    private User currentUser;
     Toolbar toolbar;
 
     private ImageButton ibCompose;
 
     private long lastTweetId = 0;
+
+    private void getCurrentUserInfo(){
+        if(!isNetworkAvailable()){
+            Toast.makeText(TimelineActivity.this, "Network unavailable :(", Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+        client.getMyProfile(new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                Log.d("DEBUG", json.toString());
+                currentUser = User.fromJson(json);
+                Toast.makeText(TimelineActivity.this, "goood", Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String body, Throwable throwable) {
+                Log.e("ERROR", body.toString());
+                Log.e("ERROR", headers.toString());
+                Toast.makeText(TimelineActivity.this, "epaa", Toast.LENGTH_LONG);
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +116,7 @@ public class TimelineActivity extends AppCompatActivity {
         lvTweets.setLayoutManager(new LinearLayoutManager(this));
 
         client = TwitterApplication.getRestClient();
-
+        getCurrentUserInfo();
         populateTimeLine();
     }
 
@@ -114,10 +142,8 @@ public class TimelineActivity extends AppCompatActivity {
         miGoTop.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
-                lvTweets.smoothScrollToPosition(0);
-
-                return true;
+            lvTweets.smoothScrollToPosition(0);
+            return true;
             }
         });
 
@@ -155,18 +181,48 @@ public class TimelineActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("DEBUG", errorResponse.toString());
+                Log.e("ERROR", errorResponse.toString());
             }
         });
     }
 
     public void OnComposeClick(View view) {
 
-
         FragmentManager fm = getSupportFragmentManager();
         ComposeFragment editNameDialog = ComposeFragment.newInstance("Some Title");
         editNameDialog.show(fm, "compose_fragment");
-
-
     }
+
+    @Override
+    public void onComposeFinish(final String status) {
+        if(!isNetworkAvailable()){
+            Toast.makeText(TimelineActivity.this, "Network unavailable :(", Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+
+        Tweet tweet = new Tweet(getResources().getConfiguration().locale);
+        tweet.setUser(currentUser);
+        tweet.setBody(status);
+        tweets.add(0, tweet);
+        aTweets.notifyDataSetChanged();
+
+//        client.postStatus(status, new JsonHttpResponseHandler() {
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+//                Log.d("DEBUG", json.toString());
+//                Tweet tweet = new Tweet();
+//                tweet.setBody(status);
+//                tweets.add(0, tweet);
+//                aTweets.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                Log.d("DEBUG", errorResponse.toString());
+//            }
+//        });
+    }
+
 }
