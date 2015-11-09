@@ -16,7 +16,7 @@
         android:divider="@drawable/list_divider"
         android:dividerHeight="1px"
         android:cacheColorHint="#00000000"
-        android:id="@+id/lvTweets"
+        android:id="@+id/rvTweets"
         android:paddingTop="?attr/actionBarSize"
         android:clipToPadding="false"
     />
@@ -29,18 +29,24 @@
         android:background="#55acee"
          />
 
-
-    <ImageButton
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:id="@+id/ibCompose"
-        android:src="@drawable/ic_tweet"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/llBottom"
         android:layout_gravity="bottom|end"
-        android:onClick="OnComposeClick"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
-        android:scaleType="fitXY"
-        android:background="@null"
-       />
+        android:gravity="center"
+        android:background="#ffffff"
+        >
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:background="#ffffff"
+            android:id="@+id/ibCompose"
+            android:layout_gravity="center"
+            android:onClick="OnComposeClick"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_compose"
+            />
+    </LinearLayout>
 </FrameLayout>
 <!-- From: file:/Users/aotarolaalvarad/AndroidStudioProjects/MySimpleTweets/app/src/main/res/layout/content_timeline.xml -->
