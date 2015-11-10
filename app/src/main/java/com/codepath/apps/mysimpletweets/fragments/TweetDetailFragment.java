@@ -43,6 +43,8 @@ public class TweetDetailFragment extends DialogFragment {
     private TextView tvCharCount;
     private EditText etReplyTo;
     private ImageView ivProfileImage;
+    private Button btnTwit;
+
     public final static int MAX_TWIT = 140;
 
 
@@ -108,6 +110,7 @@ public class TweetDetailFragment extends DialogFragment {
         tvBody = (TextView) view.findViewById(R.id.tvBody);
         ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
         tvCharCount = (TextView) view.findViewById(R.id.tvCharCount);
+        btnTwit = (Button) view.findViewById(R.id.btnTwit);
 
         tvUserName.setText(tweet.getUser().getName());
         tvScreenName.setText(Html.fromHtml("\u0040" + tweet.getUser().getScreenName()));
@@ -128,6 +131,15 @@ public class TweetDetailFragment extends DialogFragment {
             }
         });
 
+        btnTwit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ComposeFragmentListener listener = (ComposeFragmentListener) getActivity();
+                listener.onComposeFinish(etReplyTo.getText().toString(), tweet.getUid());
+                dismiss();
+            }
+        });
 
         Picasso.with(view.getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
 

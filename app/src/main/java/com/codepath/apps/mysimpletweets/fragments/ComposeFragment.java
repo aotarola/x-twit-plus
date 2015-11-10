@@ -21,7 +21,7 @@ import com.codepath.apps.mysimpletweets.models.User;
 import com.squareup.picasso.Picasso;
 // ...
 
-public class ComposeFragment extends DialogFragment implements ComposeFragmentListener {
+public class ComposeFragment extends DialogFragment {
 
 	private TextView tvCharCount;
 	private EditText etStatus;
@@ -30,10 +30,6 @@ public class ComposeFragment extends DialogFragment implements ComposeFragmentLi
     private ImageView ivProfileImage;
 	public final static int MAX_TWIT = 140;
 
-    @Override
-    public void onComposeFinish(String inputText) {
-
-    }
 
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -103,7 +99,7 @@ public class ComposeFragment extends DialogFragment implements ComposeFragmentLi
             public void onClick(View v) {
 
                 ComposeFragmentListener listener = (ComposeFragmentListener) getActivity();
-                listener.onComposeFinish(etStatus.getText().toString());
+                listener.onComposeFinish(etStatus.getText().toString(), -1);
                 dismiss();
             }
         });

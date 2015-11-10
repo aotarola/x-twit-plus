@@ -169,17 +169,17 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
             return;
         }
 
+        if(shouldClear){
+            tweets.clear();
+            lastTweetId = 0;
+        }
+        
         client.getHomeTimeline(lastTweetId, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
                 Log.d("DEBUG", json.toString());
 
-                if(shouldClear){
-                    tweets.clear();
-                    lastTweetId = -1;
-                    spRefresh.setRefreshing(false);
-                }
 
                 ArrayList<Tweet> newTweets = Tweet.fromJSONArray(json);
                 if (lastTweetId > 0) {
@@ -187,6 +187,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 }
                 tweets.addAll(newTweets);
                 aTweets.notifyDataSetChanged();
+                spRefresh.setRefreshing(false);
 
                 lastTweetId = Tweet.getLastTweet(tweets).getUid();
             }
@@ -218,7 +219,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     }
 
     @Override
-    public void onComposeFinish(final String status) {
+    public void onComposeFinish(final String status, long replyId) {
         if(!isNetworkAvailable()){
             Toast.makeText(TimelineActivity.this, "Network unavailable :(", Toast.LENGTH_SHORT)
                     .show();
@@ -231,22 +232,22 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         tweets.add(0, tweet);
         aTweets.notifyDataSetChanged();
 
-//        client.postStatus(status, new JsonHttpResponseHandler() {
-//
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-//                Log.d("DEBUG", json.toString());
-//                Tweet tweet = new Tweet();
-//                tweet.setBody(status);
-//                tweets.add(0, tweet);
-//                aTweets.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                Log.d("DEBUG", errorResponse.toString());
-//            }
-//        });
+        client.postStatus(status, replyId, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                Log.d("DEBUG", json.toString());
+                Tweet tweet = new Tweet();
+                tweet.setBody(status);
+                tweets.add(0, tweet);
+                aTweets.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("DEBUG", errorResponse.toString());
+            }
+        });
     }
 
 }
