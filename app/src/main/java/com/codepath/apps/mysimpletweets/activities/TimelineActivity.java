@@ -181,6 +181,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
 
             tweets.addAll(queryResults);
             aTweets.notifyDataSetChanged();
+            spRefresh.setRefreshing(false);
             return;
         } else {
 

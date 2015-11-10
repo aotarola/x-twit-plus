@@ -2,7 +2,13 @@
 
 ## Demo Walkthrough
 
+### Non-cached version
+
 ![video walkthrough](x-twit.gif)
+
+### Cached version
+
+![video walkthrough](x-twit-cached.gif)
 
 ## Time Spent: 14 hours
 
@@ -34,6 +40,5 @@
 
 - [x] **Advanced**: User can tap a tweet to display a "detailed" view of that tweet
 - [x] **Advanced**: Improve the user interface and theme the app to feel "twitter branded"
-- [ ] **Advanced**: User can zoom or pan images displayed in full-screen detail view
 - [ ] **Bonus**: User can see embedded image media within the tweet detail view
 - [x] **Bonus**: Compose activity is replaced with a [modal overlay](http://guides.codepath.com/android/Using-DialogFragment)
