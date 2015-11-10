@@ -26,13 +26,13 @@ TBD
 ## Optional stories:
 
 - [x] **Advanced**: While composing a tweet, user can see a character counter with characters remaining for tweet out of 140
-- [ ] **Advanced**: Links in tweets are clickable and will launch the web browser (see [autolink](http://guides.codepath.com/android/Working-with-the-TextView#autolinking-urls))
+- [x] **Advanced**: Links in tweets are clickable and will launch the web browser (see [autolink](http://guides.codepath.com/android/Working-with-the-TextView#autolinking-urls))
 - [x] **Advanced**: User can refresh tweets timeline by [pulling down](http://guides.codepath.com/android/Implementing-Pull-to-Refresh-Guide) to refresh (i.e pull-to-refresh)
 - [ ] **Advanced**: User can open the twitter app offline and see last loaded tweets
 
   - [ ] **Advanced**: Tweets are [persisted into sqlite](http://guides.codepath.com/android/ActiveAndroid-Guide) and can be displayed from the local DB
 
-- [ ] **Advanced**: User can tap a tweet to display a "detailed" view of that tweet
+- [x] **Advanced**: User can tap a tweet to display a "detailed" view of that tweet
 - [x] **Advanced**: Improve the user interface and theme the app to feel "twitter branded"
 - [ ] **Advanced**: User can zoom or pan images displayed in full-screen detail view
 - [ ] **Bonus**: User can see embedded image media within the tweet detail view

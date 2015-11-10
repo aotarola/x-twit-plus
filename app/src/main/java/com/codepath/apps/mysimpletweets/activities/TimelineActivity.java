@@ -173,7 +173,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
             tweets.clear();
             lastTweetId = 0;
         }
-        
+
         client.getHomeTimeline(lastTweetId, new JsonHttpResponseHandler() {
 
             @Override
