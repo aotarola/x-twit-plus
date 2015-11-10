@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -23,6 +25,8 @@ import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.adaptors.TweetsArrayAdaptor;
+import com.codepath.apps.mysimpletweets.fragments.ComposeFragment;
+import com.codepath.apps.mysimpletweets.fragments.TweetDetailFragment;
 import com.codepath.apps.mysimpletweets.interfaces.ComposeFragmentListener;
 import com.codepath.apps.mysimpletweets.listeners.CustomRecyclerViewListener;
 import com.codepath.apps.mysimpletweets.models.Tweet;
@@ -43,9 +47,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     private RecyclerView rvTweets;
     private User currentUser;
     private LinearLayout bottomLayout;
+    private SwipeRefreshLayout spRefresh;
     Toolbar toolbar;
-
-    private ImageButton ibCompose;
 
     private long lastTweetId = 0;
 
@@ -81,10 +84,20 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         toolbar.setTitle("");
         bottomLayout = (LinearLayout) findViewById(R.id.llBottom);
         setSupportActionBar(toolbar);
-        ibCompose = (ImageButton) findViewById(R.id.ibCompose);
         rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
         tweets = new ArrayList<>();
         aTweets = new TweetsArrayAdaptor(this, tweets);
+
+        spRefresh = (SwipeRefreshLayout) findViewById(R.id.spRefresh);
+
+        spRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                populateTimeLine(true);
+            }
+        });
+
         rvTweets.setAdapter(aTweets);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvTweets.setLayoutManager(linearLayoutManager);
@@ -92,7 +105,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
 
             @Override
             public void onLoadMore(int current_page) {
-                populateTimeLine();
+                populateTimeLine(false);
             }
 
             @Override
@@ -108,7 +121,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
 
         client = TwitterApplication.getRestClient();
         getCurrentUserInfo();
-        populateTimeLine();
+        populateTimeLine(false);
     }
 
 
@@ -133,8 +146,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         miGoTop.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-            rvTweets.smoothScrollToPosition(0);
-            return true;
+                rvTweets.smoothScrollToPosition(0);
+                return true;
             }
         });
 
@@ -148,20 +161,28 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
-    private void populateTimeLine() {
+    private void populateTimeLine(final boolean shouldClear) {
 
         if(!isNetworkAvailable()){
             Toast.makeText(TimelineActivity.this, "Network unavailable :(", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
-        client.getHomeTimeline(lastTweetId, new JsonHttpResponseHandler(){
+
+        client.getHomeTimeline(lastTweetId, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
                 Log.d("DEBUG", json.toString());
+
+                if(shouldClear){
+                    tweets.clear();
+                    lastTweetId = -1;
+                    spRefresh.setRefreshing(false);
+                }
+
                 ArrayList<Tweet> newTweets = Tweet.fromJSONArray(json);
-                if(lastTweetId > 0){
+                if (lastTweetId > 0) {
                     tweets.remove(0);
                 }
                 tweets.addAll(newTweets);
@@ -180,8 +201,20 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     public void OnComposeClick(View view) {
 
         FragmentManager fm = getSupportFragmentManager();
-        ComposeFragment editNameDialog = ComposeFragment.newInstance("Some Title");
-        editNameDialog.show(fm, "compose_fragment");
+        ComposeFragment composeFragment = ComposeFragment.newInstance("Some Title");
+        Bundle args = new Bundle();
+        args.putParcelable("user", currentUser);
+        composeFragment.setArguments(args);
+        composeFragment.show(fm, "compose_fragment");
+    }
+
+    public void showTweetDetailedView(View view, Tweet tweet) {
+        FragmentManager fm = getSupportFragmentManager();
+        TweetDetailFragment tweetDetailFragment = TweetDetailFragment.newInstance("Some Title");
+        Bundle args = new Bundle();
+        args.putParcelable("tweet", tweet);
+        tweetDetailFragment.setArguments(args);
+        tweetDetailFragment.show(fm, "tweet_detail_fragment");
     }
 
     @Override

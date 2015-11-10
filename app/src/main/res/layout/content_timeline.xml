@@ -8,18 +8,24 @@
     tools:context=".activities.TimelineActivity"
     tools:showIn="@layout/activity_timeline">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/spRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:textColor="#444444"
-        android:divider="@drawable/list_divider"
-        android:dividerHeight="1px"
-        android:cacheColorHint="#00000000"
-        android:id="@+id/rvTweets"
-        android:paddingTop="?attr/actionBarSize"
-        android:clipToPadding="false"
-    />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textColor="#444444"
+            android:divider="@drawable/list_divider"
+            android:dividerHeight="1px"
+            android:cacheColorHint="#00000000"
+            android:id="@+id/rvTweets"
+            android:paddingTop="?attr/actionBarSize"
+            android:clipToPadding="false"
+        />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
     <android.support.v7.widget.Toolbar

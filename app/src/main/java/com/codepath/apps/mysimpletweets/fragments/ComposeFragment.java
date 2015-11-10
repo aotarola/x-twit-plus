@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets.activities;
+package com.codepath.apps.mysimpletweets.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,23 +11,28 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.interfaces.ComposeFragmentListener;
+import com.codepath.apps.mysimpletweets.models.User;
+import com.squareup.picasso.Picasso;
 // ...
 
 public class ComposeFragment extends DialogFragment implements ComposeFragmentListener {
 
-	private EditText mEditText;
 	private TextView tvCharCount;
-    private Button btnTwit;
-    public final static int MAX_TWIT = 140;
+	private EditText etStatus;
+	private Button btnTwit;
+    private User user;
+    private ImageView ivProfileImage;
+	public final static int MAX_TWIT = 140;
 
     @Override
     public void onComposeFinish(String inputText) {
-        
+
     }
 
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
@@ -66,12 +71,17 @@ public class ComposeFragment extends DialogFragment implements ComposeFragmentLi
 		Bundle args = new Bundle();
 		args.putString("title", title);
 		frag.setArguments(args);
+		// request a window without the title
+		frag.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 		return frag;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        user = args.getParcelable("user");
+
 		return inflater.inflate(R.layout.fragment_compose, container);
 	}
 
@@ -80,24 +90,30 @@ public class ComposeFragment extends DialogFragment implements ComposeFragmentLi
 		super.onViewCreated(view, savedInstanceState);
         setStyle(STYLE_NO_FRAME, R.style.AppDialogTheme);
 		// Get field from view
-		mEditText = (EditText) view.findViewById(R.id.txt_your_name);
+		etStatus = (EditText) view.findViewById(R.id.etStatus);
 		tvCharCount = (TextView) view.findViewById(R.id.tvCharCount);
+        ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
         btnTwit = (Button) view.findViewById((R.id.btnTwit));
-        mEditText.addTextChangedListener(mTextEditorWatcher);
+
+        etStatus.addTextChangedListener(mTextEditorWatcher);
+
 
         btnTwit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 ComposeFragmentListener listener = (ComposeFragmentListener) getActivity();
-                listener.onComposeFinish(mEditText.getText().toString());
+                listener.onComposeFinish(etStatus.getText().toString());
                 dismiss();
             }
         });
 
-        //mEditText.setOnKeyListener();
+        Picasso.with(view.getContext()).load(user.getProfileImageUrl()).into(ivProfileImage);
+
+
+        //etStatus.setOnKeyListener();
 		// Show soft keyboard automatically and request focus to field
-		mEditText.requestFocus();
+		etStatus.requestFocus();
 		getDialog().getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 	}
