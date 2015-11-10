@@ -40,7 +40,10 @@ public class TweetDetailFragment extends DialogFragment {
     private TextView tvUserName;
     private TextView tvScreenName;
     private TextView tvBody;
+    private TextView tvCharCount;
+    private EditText etReplyTo;
     private ImageView ivProfileImage;
+    public final static int MAX_TWIT = 140;
 
 
     public TweetDetailFragment() {
@@ -48,6 +51,19 @@ public class TweetDetailFragment extends DialogFragment {
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
+
+    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //This sets a textview to the current length
+            tvCharCount.setText(String.valueOf(MAX_TWIT - s.length()));
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
+    };
 
     @Override
     public void onResume() {
@@ -88,12 +104,30 @@ public class TweetDetailFragment extends DialogFragment {
 
         tvUserName = (TextView) view.findViewById(R.id.tvUserName);
         tvScreenName = (TextView) view.findViewById(R.id.tvScreenName);
+        etReplyTo = (EditText) view.findViewById(R.id.etReplyTo);
         tvBody = (TextView) view.findViewById(R.id.tvBody);
         ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
+        tvCharCount = (TextView) view.findViewById(R.id.tvCharCount);
 
         tvUserName.setText(tweet.getUser().getName());
         tvScreenName.setText(Html.fromHtml("\u0040" + tweet.getUser().getScreenName()));
         tvBody.setText(Html.fromHtml(tweet.getBody()));
+        etReplyTo.addTextChangedListener(mTextEditorWatcher);
+
+        etReplyTo.setHint("Reply to " + tweet.getUser().getName());
+
+        etReplyTo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                EditText btn = (EditText) v;
+
+                if (hasFocus) {
+                    btn.setText("@" + tweet.getUser().getScreenName() + " ");
+                    btn.setSelection(btn.getText().length());
+                }
+            }
+        });
+
 
         Picasso.with(view.getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
 
