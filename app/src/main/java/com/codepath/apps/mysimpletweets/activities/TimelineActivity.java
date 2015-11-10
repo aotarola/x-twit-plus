@@ -21,6 +21,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.activeandroid.query.Select;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
@@ -38,6 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TimelineActivity extends AppCompatActivity implements ComposeFragmentListener {
 
@@ -164,39 +167,46 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     private void populateTimeLine(final boolean shouldClear) {
 
         if(!isNetworkAvailable()){
-            Toast.makeText(TimelineActivity.this, "Network unavailable :(", Toast.LENGTH_SHORT)
+            Toast.makeText(TimelineActivity.this, "Loaded from cache", Toast.LENGTH_SHORT)
                     .show();
+
+            List<Tweet> queryResults = new Select().from(Tweet.class)
+                    .orderBy("uid ASC").limit(100).execute();
+
+            tweets.addAll(queryResults);
+            aTweets.notifyDataSetChanged();
             return;
-        }
+        } else {
 
-        if(shouldClear){
-            tweets.clear();
-            lastTweetId = 0;
-        }
+            if (shouldClear) {
+                tweets.clear();
+                lastTweetId = 0;
+            }
 
-        client.getHomeTimeline(lastTweetId, new JsonHttpResponseHandler() {
+            client.getHomeTimeline(lastTweetId, new JsonHttpResponseHandler() {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                Log.d("DEBUG", json.toString());
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                    Log.d("DEBUG", json.toString());
 
 
-                ArrayList<Tweet> newTweets = Tweet.fromJSONArray(json);
-                if (lastTweetId > 0) {
-                    tweets.remove(0);
+                    ArrayList<Tweet> newTweets = Tweet.fromJSONArray(json);
+                    if (lastTweetId > 0) {
+                        tweets.remove(0);
+                    }
+                    tweets.addAll(newTweets);
+                    aTweets.notifyDataSetChanged();
+                    spRefresh.setRefreshing(false);
+
+                    lastTweetId = Tweet.getLastTweet(tweets).getUid();
                 }
-                tweets.addAll(newTweets);
-                aTweets.notifyDataSetChanged();
-                spRefresh.setRefreshing(false);
 
-                lastTweetId = Tweet.getLastTweet(tweets).getUid();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("ERROR", errorResponse.toString());
-            }
-        });
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.e("ERROR", errorResponse.toString());
+                }
+            });
+        }
     }
 
     public void OnComposeClick(View view) {

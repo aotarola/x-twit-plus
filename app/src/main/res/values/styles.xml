@@ -13,6 +13,13 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <color name="twitter_brand_blue">#55acee</color>
+    <color name="twitter_brand_white">#ffffff</color>
+    <color name="twitter_brand_black">#292f33</color>
+    <color name="twitter_brand_dark_grey">#66757f</color>
+    <color name="twitter_brand_grey">#ccd6dd</color>
+    <color name="twitter_brand_light_grey">#e1e8ed</color>
+
 
     <style name="MY.DIALOG" parent="android:Theme" >
         <item name="android:windowNoTitle">true</item>

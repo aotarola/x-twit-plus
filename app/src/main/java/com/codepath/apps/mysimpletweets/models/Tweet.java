@@ -21,10 +21,23 @@ import java.util.TimeZone;
 /**
  * Created by aotarolaalvarad on 11/7/15.
  */
-public class Tweet implements Parcelable {
-    private String body;
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "Tweets")
+public class Tweet extends Model implements Parcelable {
+
+    @Column(name = "uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long uid;
+
+    @Column(name = "body")
+    private String body;
+
+    @Column(name = "User", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     private User user;
+
+    @Column(name = "created_at")
     private String createdAt;
 
     private static final String TWITTER_DATE_FORMAT = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
@@ -47,6 +60,7 @@ public class Tweet implements Parcelable {
 
 
     public Tweet(){
+        super();
         uid = -1;
         body = "";
         user = new User();
@@ -130,6 +144,7 @@ public class Tweet implements Parcelable {
             tweet.uid = json.getLong("id");
             tweet.createdAt = json.getString("created_at");
             tweet.user = User.fromJson(json.getJSONObject("user"));
+            tweet.save();
         } catch (JSONException e) {
             e.printStackTrace();
         }

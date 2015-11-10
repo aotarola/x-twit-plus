@@ -3,17 +3,31 @@ package com.codepath.apps.mysimpletweets.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * Created by aotarolaalvarad on 11/7/15.
  */
-public class User implements Parcelable {
+@Table(name = "Users")
+public class User extends Model implements Parcelable {
 
+    @Column(name = "uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long uid;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "screen_name")
     private String screenName;
+
+    @Column(name = "profile_image_url")
     private String profileImageUrl;
 
     public void setUid(long uid) {
@@ -49,6 +63,7 @@ public class User implements Parcelable {
     }
 
     public User(){
+        super();
         name = "";
         uid = -1;
         screenName = "";
@@ -63,6 +78,7 @@ public class User implements Parcelable {
             user.setUid(json.getLong("id"));
             user.setScreenName(json.getString("screen_name"));
             user.setProfileImageUrl(json.getString("profile_image_url"));
+            user.save();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -82,6 +98,11 @@ public class User implements Parcelable {
         dest.writeString(this.screenName);
         dest.writeString(this.profileImageUrl);
     }
+
+    public List<Tweet> tweets() {
+        return getMany(Tweet.class, "User");
+    }
+
 
     protected User(Parcel in) {
         this.uid = in.readLong();

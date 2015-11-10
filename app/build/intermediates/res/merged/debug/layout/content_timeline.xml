@@ -32,7 +32,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#55acee"
+        android:background="@color/twitter_brand_blue"
          />
 
     <LinearLayout
