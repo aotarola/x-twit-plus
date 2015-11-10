@@ -24,7 +24,9 @@ import android.widget.TextView;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.interfaces.ComposeFragmentListener;
 import com.codepath.apps.mysimpletweets.models.Tweet;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -141,7 +143,15 @@ public class TweetDetailFragment extends DialogFragment {
             }
         });
 
-        Picasso.with(view.getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        Transformation transformation = new RoundedTransformationBuilder()
+                .cornerRadiusDp(30)
+                .oval(true)
+                .build();
+
+        Picasso.with(view.getContext())
+                .load(tweet.getUser().getProfileImageUrl())
+                .transform(transformation)
+                .into(ivProfileImage);
 
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

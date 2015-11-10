@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +28,7 @@ import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.adaptors.TweetsArrayAdaptor;
+import com.codepath.apps.mysimpletweets.decorators.DividerItemDecoration;
 import com.codepath.apps.mysimpletweets.fragments.ComposeFragment;
 import com.codepath.apps.mysimpletweets.fragments.TweetDetailFragment;
 import com.codepath.apps.mysimpletweets.interfaces.ComposeFragmentListener;
@@ -121,6 +123,10 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 showViews();
             }
         });
+
+        rvTweets.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        rvTweets.setHasFixedSize(true);
+        rvTweets.setItemAnimator(new DefaultItemAnimator());
 
         client = TwitterApplication.getRestClient();
         getCurrentUserInfo();

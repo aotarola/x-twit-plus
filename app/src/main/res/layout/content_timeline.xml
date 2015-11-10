@@ -17,8 +17,6 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:textColor="#444444"
-            android:divider="@drawable/list_divider"
-            android:dividerHeight="1px"
             android:cacheColorHint="#00000000"
             android:id="@+id/rvTweets"
             android:paddingTop="?attr/actionBarSize"

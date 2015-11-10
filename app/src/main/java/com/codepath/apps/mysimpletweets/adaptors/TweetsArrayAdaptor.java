@@ -17,7 +17,9 @@ import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.activities.TimelineActivity;
 import com.codepath.apps.mysimpletweets.fragments.ComposeFragment;
 import com.codepath.apps.mysimpletweets.models.Tweet;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
@@ -105,7 +107,15 @@ public class TweetsArrayAdaptor  extends
 
         ivProfileImage.setImageResource(android.R.color.transparent);;
 
-        Picasso.with(context).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        Transformation transformation = new RoundedTransformationBuilder()
+                .cornerRadiusDp(30)
+                .oval(true)
+                .build();
+
+        Picasso.with(context)
+                .load(tweet.getUser().getProfileImageUrl())
+                .transform(transformation)
+                .into(ivProfileImage);
 
     }
 

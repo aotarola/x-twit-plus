@@ -18,7 +18,9 @@ import android.widget.TextView;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.interfaces.ComposeFragmentListener;
 import com.codepath.apps.mysimpletweets.models.User;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 // ...
 
 public class ComposeFragment extends DialogFragment {
@@ -104,7 +106,15 @@ public class ComposeFragment extends DialogFragment {
             }
         });
 
-        Picasso.with(view.getContext()).load(user.getProfileImageUrl()).into(ivProfileImage);
+		Transformation transformation = new RoundedTransformationBuilder()
+				.cornerRadiusDp(30)
+				.oval(true)
+				.build();
+
+        Picasso.with(view.getContext())
+				.load(user.getProfileImageUrl())
+				.transform(transformation)
+				.into(ivProfileImage);
 
 
         //etStatus.setOnKeyListener();

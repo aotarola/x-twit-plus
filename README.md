@@ -2,9 +2,9 @@
 
 ## Demo Walkthrough
 
-TBD
+![video walkthrough](x-twit.gif)
 
-## Time Spent: X hours
+## Time Spent: 14 hours
 
 ## Stories implemented
 
