@@ -91,7 +91,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         setSupportActionBar(toolbar);
         rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
         tweets = new ArrayList<>();
-        aTweets = new TweetsArrayAdaptor(this, tweets);
+        aTweets = new TweetsArrayAdaptor(tweets);
 
         spRefresh = (SwipeRefreshLayout) findViewById(R.id.spRefresh);
 
