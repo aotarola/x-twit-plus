@@ -186,7 +186,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         } else {
 
             if (shouldClear) {
-                tweets.clear();
+                aTweets.clear();
                 lastTweetId = 0;
             }
 
@@ -201,11 +201,10 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                     if (lastTweetId > 0) {
                         tweets.remove(0);
                     }
-                    tweets.addAll(newTweets);
-                    aTweets.notifyDataSetChanged();
+                    aTweets.addAll(newTweets);
                     spRefresh.setRefreshing(false);
 
-                    lastTweetId = Tweet.getLastTweet(tweets).getUid();
+                    lastTweetId = Tweet.getLastTweet(aTweets.getTweets()).getUid();
                 }
 
                 @Override

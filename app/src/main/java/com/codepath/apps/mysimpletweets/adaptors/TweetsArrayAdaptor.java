@@ -21,6 +21,7 @@ import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -60,9 +61,22 @@ public class TweetsArrayAdaptor
 
     }
 
+    public void addAll(Collection<? extends Tweet> collection) {
+        tweets.addAll(collection);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return tweets.size();
     }
 
+    public List<Tweet> getTweets() {
+        return tweets;
+    }
+
+    public void clear() {
+        tweets.clear();
+        notifyDataSetChanged();
+    }
 }
