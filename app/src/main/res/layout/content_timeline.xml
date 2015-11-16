@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.TimelineActivity"
-    tools:showIn="@layout/activity_timeline">
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/spRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:textColor="#444444"
-            android:cacheColorHint="#00000000"
-            android:id="@+id/rvTweets"
-            android:paddingTop="?attr/actionBarSize"
-            android:clipToPadding="false"
-        />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
+    tools:showIn="@layout/activity_timeline"
+    android:orientation="vertical">
 
 
     <android.support.v7.widget.Toolbar
@@ -33,23 +17,18 @@
         android:background="@color/twitter_brand_blue"
          />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/tabs"
+        app:pstsShouldExpand="true"
+        app:pstsTextAllCaps="true"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/llBottom"
-        android:layout_gravity="bottom|end"
-        android:gravity="center"
-        android:background="#ffffff"
-        >
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:background="#ffffff"
-            android:id="@+id/ibCompose"
-            android:layout_gravity="center"
-            android:onClick="OnComposeClick"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_compose"
-            />
-    </LinearLayout>
-</FrameLayout>
+        android:background="@android:color/white" />
+
+
+</LinearLayout>

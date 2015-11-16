@@ -52,6 +52,10 @@
             android:name="com.codepath.apps.mysimpletweets.activities.TimelineActivity"
             android:label="@string/title_activity_timeline"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.codepath.apps.mysimpletweets.activities.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

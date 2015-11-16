@@ -21,7 +21,7 @@
     <color name="twitter_brand_light_grey">#e1e8ed</color>
 
 
-    <style name="MY.DIALOG" parent="android:Theme" >
+    <style name="MY.DIALOG" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsFloating">false</item>
