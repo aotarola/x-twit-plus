@@ -40,6 +40,7 @@ public class MentionsTimelineFragment extends TweetsListFragment {
                     .orderBy("uid ASC").limit(100).execute();
 
             addAll(queryResults);
+            spRefresh.setRefreshing(false);
             return;
         } else {
 
@@ -56,6 +57,7 @@ public class MentionsTimelineFragment extends TweetsListFragment {
 
                     ArrayList<Tweet> newTweets = Tweet.fromJSONArray(json);
                     addAll(newTweets);
+                    spRefresh.setRefreshing(false);
 
                 }
 

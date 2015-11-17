@@ -49,7 +49,7 @@ public class TweetsListFragment extends Fragment implements ComposeFragmentListe
     private TweetsArrayAdaptor aTweets;
 
     private RecyclerView rvTweets;
-    private SwipeRefreshLayout spRefresh;
+    protected SwipeRefreshLayout spRefresh;
     private LinearLayout bottomLayout;
     protected LinearLayoutManager linearLayoutManager;
 

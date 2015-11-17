@@ -90,6 +90,7 @@ public class UserTimelineFragment extends TweetsListFragment {
                     .orderBy("uid ASC").limit(100).execute();
 
             addAll(queryResults);
+            spRefresh.setRefreshing(false);
             return;
         } else {
 
@@ -110,7 +111,7 @@ public class UserTimelineFragment extends TweetsListFragment {
                         getTweets().remove(0);
                     }
                     addAll(newTweets);
-
+                    spRefresh.setRefreshing(false);
                     lastTweetId = Tweet.getLastTweet(getaTweets().getTweets()).getUid();
                 }
 

@@ -139,7 +139,7 @@ public class TweetDetailFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                ComposeFragmentListener listener = (ComposeFragmentListener) getActivity();
+                ComposeFragmentListener listener = (ComposeFragmentListener) getTargetFragment();
                 listener.onComposeFinish(etReplyTo.getText().toString(), tweet.getUid());
                 dismiss();
             }
