@@ -4,7 +4,7 @@
 
 ![video walkthrough](x-twit-plus.gif)
 
-## Time Spent: 14 hours
+## Time Spent: 6 hours
 
 ## Stories implemented
 
