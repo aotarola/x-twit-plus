@@ -17,10 +17,11 @@ import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimeLineFragment;
 import com.codepath.apps.mysimpletweets.fragments.MentionsTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.TweetDetailFragment;
+import com.codepath.apps.mysimpletweets.interfaces.ShowUserProfileListener;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.models.User;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements ShowUserProfileListener {
 
     private User currentUser;
     private ViewPager vpPager;
@@ -67,15 +68,6 @@ public class TimelineActivity extends AppCompatActivity {
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabStrip.setViewPager(vpPager);
 
-        // Begin the transaction
-        //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        // Replace the contents of the container with the new fragment
-        //ft.replace(R.id.fragmentTimeline, new MentionsTimelineFragment(), "timeLineFragment");
-        // or ft.add(R.id.your_placeholder, new FooFragment());
-        // Complete the changes added above
-        //ft.commit();
-        //getCurrentUserInfo();
-
     }
 
     @Override
@@ -111,6 +103,13 @@ public class TimelineActivity extends AppCompatActivity {
         args.putParcelable("tweet", tweet);
         tweetDetailFragment.setArguments(args);
         tweetDetailFragment.show(fm, "tweet_detail_fragment");
+    }
+
+    @Override
+    public void onShowUserProfile(String screenName) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("screen_name", screenName);
+        startActivity(i);
     }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {

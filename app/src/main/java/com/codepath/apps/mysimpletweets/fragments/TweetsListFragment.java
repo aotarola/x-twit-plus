@@ -1,6 +1,7 @@
 package com.codepath.apps.mysimpletweets.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -23,8 +24,10 @@ import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterClient;
+import com.codepath.apps.mysimpletweets.activities.ProfileActivity;
 import com.codepath.apps.mysimpletweets.adaptors.TweetsArrayAdaptor;
 import com.codepath.apps.mysimpletweets.interfaces.ComposeFragmentListener;
+import com.codepath.apps.mysimpletweets.interfaces.ShowUserProfileListener;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -163,4 +166,5 @@ public class TweetsListFragment extends Fragment implements ComposeFragmentListe
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
+
 }

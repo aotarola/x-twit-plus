@@ -1,14 +1,10 @@
 package com.codepath.apps.mysimpletweets.activities;
 
 
-import android.media.Image;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,18 +30,31 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         client = TwitterApplication.getRestClient();
-
-        client.getMyProfile(new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                user = User.fromJson(response);
-
-                getSupportActionBar().setTitle("@" + user.getScreenName());
-                populareProfileHeader(user);
-            }
-        });
-
         String screenName = getIntent().getStringExtra("screen_name");
+
+        if(screenName != null){
+            client.getUserProfile(screenName, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    user = User.fromJson(response);
+
+                    getSupportActionBar().setTitle("@" + user.getScreenName());
+                    populareProfileHeader(user);
+                }
+            });
+        }
+        else {
+            client.getMyProfile(new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    user = User.fromJson(response);
+
+                    getSupportActionBar().setTitle("@" + user.getScreenName());
+                    populareProfileHeader(user);
+                }
+            });
+        }
+
 
         if(savedInstanceState == null){
 
@@ -60,14 +69,6 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     private void populareProfileHeader(User user) {

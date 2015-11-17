@@ -81,7 +81,7 @@ public class UserTimelineFragment extends TweetsListFragment {
     }
 
     private void populateTimeLine(final boolean shouldClear) {
-        String screenNAme = getArguments().getString("screen_name");
+        String screenName = getArguments().getString("screen_name");
         if(!isNetworkAvailable()){
             Toast.makeText(getActivity(), "Loaded from cache", Toast.LENGTH_SHORT)
                     .show();
@@ -98,7 +98,7 @@ public class UserTimelineFragment extends TweetsListFragment {
                 lastTweetId = 0;
             }
 
-            client.getHomeTimeline(lastTweetId, new JsonHttpResponseHandler() {
+            client.getUserTimeline(screenName, new JsonHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray json) {

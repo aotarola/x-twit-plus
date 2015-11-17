@@ -20,9 +20,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.interfaces.ComposeFragmentListener;
+import com.codepath.apps.mysimpletweets.interfaces.ShowUserProfileListener;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
@@ -139,6 +141,16 @@ public class TweetDetailFragment extends DialogFragment {
 
                 ComposeFragmentListener listener = (ComposeFragmentListener) getActivity();
                 listener.onComposeFinish(etReplyTo.getText().toString(), tweet.getUid());
+                dismiss();
+            }
+        });
+
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ShowUserProfileListener listener = (ShowUserProfileListener) getActivity();
+                listener.onShowUserProfile(tweet.getUser().getScreenName());
                 dismiss();
             }
         });
